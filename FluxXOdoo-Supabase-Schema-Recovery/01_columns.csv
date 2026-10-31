@@ -1,0 +1,99 @@
+table_name,column_name,data_type,udt_name,is_nullable,column_default,character_maximum_length,numeric_precision,numeric_scale
+discount_rules,id,uuid,uuid,NO,gen_random_uuid(),,,
+discount_rules,name,text,text,NO,,,,
+discount_rules,discount_type,text,text,NO,,,,
+discount_rules,discount_value,numeric,numeric,NO,,,12.0,2.0
+discount_rules,minimum_purchase,numeric,numeric,YES,0,,12.0,2.0
+discount_rules,usage_limit,integer,int4,YES,,,32.0,0.0
+discount_rules,start_date,date,date,YES,,,,
+discount_rules,end_date,date,date,YES,,,,
+discount_rules,is_active,boolean,bool,NO,true,,,
+discount_rules,created_at,timestamp with time zone,timestamptz,NO,now(),,,
+invoice_items,id,uuid,uuid,NO,gen_random_uuid(),,,
+invoice_items,invoice_id,uuid,uuid,NO,,,,
+invoice_items,product_id,uuid,uuid,YES,,,,
+invoice_items,description,text,text,YES,,,,
+invoice_items,quantity,integer,int4,NO,1,,32.0,0.0
+invoice_items,unit_price,numeric,numeric,NO,0,,12.0,2.0
+invoice_items,tax_amount,numeric,numeric,NO,0,,12.0,2.0
+invoice_items,line_total,numeric,numeric,NO,0,,12.0,2.0
+invoice_items,created_at,timestamp with time zone,timestamptz,NO,now(),,,
+invoices,id,uuid,uuid,NO,gen_random_uuid(),,,
+invoices,invoice_number,text,text,NO,,,,
+invoices,subscription_id,uuid,uuid,YES,,,,
+invoices,customer_id,uuid,uuid,NO,,,,
+invoices,issue_date,date,date,NO,CURRENT_DATE,,,
+invoices,due_date,date,date,YES,,,,
+invoices,subtotal,numeric,numeric,NO,0,,12.0,2.0
+invoices,tax_amount,numeric,numeric,NO,0,,12.0,2.0
+invoices,discount_amount,numeric,numeric,NO,0,,12.0,2.0
+invoices,total_amount,numeric,numeric,NO,0,,12.0,2.0
+invoices,status,text,text,NO,'draft'::text,,,
+invoices,created_at,timestamp with time zone,timestamptz,NO,now(),,,
+payments,id,uuid,uuid,NO,gen_random_uuid(),,,
+payments,invoice_id,uuid,uuid,NO,,,,
+payments,amount,numeric,numeric,NO,,,12.0,2.0
+payments,payment_method,text,text,NO,'simulated'::text,,,
+payments,payment_date,timestamp with time zone,timestamptz,NO,now(),,,
+payments,note,text,text,YES,,,,
+payments,created_at,timestamp with time zone,timestamptz,NO,now(),,,
+plans,id,uuid,uuid,NO,gen_random_uuid(),,,
+plans,name,text,text,NO,,,,
+plans,billing_interval,text,text,NO,,,,
+plans,price,numeric,numeric,NO,0,,12.0,2.0
+plans,minimum_quantity,integer,int4,NO,1,,32.0,0.0
+plans,start_date,date,date,YES,,,,
+plans,end_date,date,date,YES,,,,
+plans,auto_close,boolean,bool,NO,false,,,
+plans,is_active,boolean,bool,NO,true,,,
+plans,created_at,timestamp with time zone,timestamptz,NO,now(),,,
+product_variants,id,uuid,uuid,NO,gen_random_uuid(),,,
+product_variants,product_id,uuid,uuid,NO,,,,
+product_variants,name,text,text,NO,,,,
+product_variants,price_extra,numeric,numeric,NO,0,,12.0,2.0
+product_variants,created_at,timestamp with time zone,timestamptz,NO,now(),,,
+products,id,uuid,uuid,NO,gen_random_uuid(),,,
+products,name,text,text,NO,,,,
+products,product_type,text,text,NO,'service'::text,,,
+products,sales_price,numeric,numeric,NO,0,,12.0,2.0
+products,cost_price,numeric,numeric,NO,0,,12.0,2.0
+products,notes,text,text,YES,,,,
+products,is_active,boolean,bool,NO,true,,,
+products,created_at,timestamp with time zone,timestamptz,NO,now(),,,
+profiles,id,uuid,uuid,NO,,,,
+profiles,full_name,text,text,YES,,,,
+profiles,email,text,text,NO,,,,
+profiles,role,text,text,NO,'customer'::text,,,
+profiles,created_at,timestamp with time zone,timestamptz,NO,now(),,,
+quotation_items,id,uuid,uuid,NO,gen_random_uuid(),,,
+quotation_items,quotation_id,uuid,uuid,NO,,,,
+quotation_items,product_id,uuid,uuid,NO,,,,
+quotation_items,quantity,integer,int4,NO,1,,32.0,0.0
+quotation_items,unit_price,numeric,numeric,NO,0,,12.0,2.0
+quotation_items,created_at,timestamp with time zone,timestamptz,NO,now(),,,
+quotations,id,uuid,uuid,NO,gen_random_uuid(),,,
+quotations,quotation_number,text,text,NO,,,,
+quotations,customer_id,uuid,uuid,NO,,,,
+quotations,valid_until,date,date,YES,,,,
+quotations,status,text,text,NO,'draft'::text,,,
+quotations,total_amount,numeric,numeric,NO,0,,12.0,2.0
+quotations,created_at,timestamp with time zone,timestamptz,NO,now(),,,
+subscription_items,id,uuid,uuid,NO,gen_random_uuid(),,,
+subscription_items,subscription_id,uuid,uuid,NO,,,,
+subscription_items,product_id,uuid,uuid,NO,,,,
+subscription_items,quantity,integer,int4,NO,1,,32.0,0.0
+subscription_items,unit_price,numeric,numeric,NO,0,,12.0,2.0
+subscription_items,created_at,timestamp with time zone,timestamptz,NO,now(),,,
+subscriptions,id,uuid,uuid,NO,gen_random_uuid(),,,
+subscriptions,subscription_number,text,text,NO,,,,
+subscriptions,customer_id,uuid,uuid,NO,,,,
+subscriptions,plan_id,uuid,uuid,YES,,,,
+subscriptions,start_date,date,date,YES,,,,
+subscriptions,end_date,date,date,YES,,,,
+subscriptions,status,text,text,NO,'draft'::text,,,
+subscriptions,created_at,timestamp with time zone,timestamptz,NO,now(),,,
+tax_rules,id,uuid,uuid,NO,gen_random_uuid(),,,
+tax_rules,name,text,text,NO,,,,
+tax_rules,tax_rate,numeric,numeric,NO,,,5.0,2.0
+tax_rules,is_active,boolean,bool,NO,true,,,
+tax_rules,created_at,timestamp with time zone,timestamptz,NO,now(),,,

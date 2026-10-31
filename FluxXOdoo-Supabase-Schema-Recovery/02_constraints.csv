@@ -1,0 +1,48 @@
+table_name,constraint_name,constraint_type,constraint_definition
+discount_rules,discount_rules_discount_type_check,CHECK,"CHECK ((discount_type = ANY (ARRAY['fixed'::text, 'percentage'::text])))"
+discount_rules,discount_rules_discount_value_check,CHECK,CHECK ((discount_value >= (0)::numeric))
+discount_rules,discount_rules_pkey,PRIMARY KEY,PRIMARY KEY (id)
+invoice_items,invoice_items_quantity_check,CHECK,CHECK ((quantity > 0))
+invoice_items,invoice_items_invoice_id_fkey,FOREIGN KEY,FOREIGN KEY (invoice_id) REFERENCES invoices(id) ON DELETE CASCADE
+invoice_items,invoice_items_product_id_fkey,FOREIGN KEY,FOREIGN KEY (product_id) REFERENCES products(id)
+invoice_items,invoice_items_pkey,PRIMARY KEY,PRIMARY KEY (id)
+invoices,invoices_status_check,CHECK,"CHECK ((status = ANY (ARRAY['draft'::text, 'confirmed'::text, 'paid'::text, 'overdue'::text, 'cancelled'::text])))"
+invoices,invoices_customer_id_fkey,FOREIGN KEY,FOREIGN KEY (customer_id) REFERENCES profiles(id)
+invoices,invoices_subscription_id_fkey,FOREIGN KEY,FOREIGN KEY (subscription_id) REFERENCES subscriptions(id)
+invoices,invoices_pkey,PRIMARY KEY,PRIMARY KEY (id)
+invoices,invoices_invoice_number_key,UNIQUE,UNIQUE (invoice_number)
+payments,payments_amount_check,CHECK,CHECK ((amount > (0)::numeric))
+payments,payments_invoice_id_fkey,FOREIGN KEY,FOREIGN KEY (invoice_id) REFERENCES invoices(id)
+payments,payments_pkey,PRIMARY KEY,PRIMARY KEY (id)
+plans,plans_billing_interval_check,CHECK,"CHECK ((billing_interval = ANY (ARRAY['daily'::text, 'weekly'::text, 'monthly'::text, 'yearly'::text])))"
+plans,plans_minimum_quantity_check,CHECK,CHECK ((minimum_quantity > 0))
+plans,plans_price_check,CHECK,CHECK ((price >= (0)::numeric))
+plans,plans_pkey,PRIMARY KEY,PRIMARY KEY (id)
+product_variants,product_variants_product_id_fkey,FOREIGN KEY,FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+product_variants,product_variants_pkey,PRIMARY KEY,PRIMARY KEY (id)
+products,products_sales_price_check,CHECK,CHECK ((sales_price >= (0)::numeric))
+products,products_cost_price_check,CHECK,CHECK ((cost_price >= (0)::numeric))
+products,products_pkey,PRIMARY KEY,PRIMARY KEY (id)
+profiles,profiles_role_check,CHECK,"CHECK ((role = ANY (ARRAY['admin'::text, 'staff'::text, 'customer'::text])))"
+profiles,profiles_id_fkey,FOREIGN KEY,FOREIGN KEY (id) REFERENCES auth.users(id) ON DELETE CASCADE
+profiles,profiles_pkey,PRIMARY KEY,PRIMARY KEY (id)
+profiles,profiles_email_key,UNIQUE,UNIQUE (email)
+quotation_items,quotation_items_quantity_check,CHECK,CHECK ((quantity > 0))
+quotation_items,quotation_items_quotation_id_fkey,FOREIGN KEY,FOREIGN KEY (quotation_id) REFERENCES quotations(id) ON DELETE CASCADE
+quotation_items,quotation_items_product_id_fkey,FOREIGN KEY,FOREIGN KEY (product_id) REFERENCES products(id)
+quotation_items,quotation_items_pkey,PRIMARY KEY,PRIMARY KEY (id)
+quotations,quotations_status_check,CHECK,"CHECK ((status = ANY (ARRAY['draft'::text, 'sent'::text, 'accepted'::text, 'rejected'::text, 'expired'::text])))"
+quotations,quotations_customer_id_fkey,FOREIGN KEY,FOREIGN KEY (customer_id) REFERENCES profiles(id)
+quotations,quotations_pkey,PRIMARY KEY,PRIMARY KEY (id)
+quotations,quotations_quotation_number_key,UNIQUE,UNIQUE (quotation_number)
+subscription_items,subscription_items_quantity_check,CHECK,CHECK ((quantity > 0))
+subscription_items,subscription_items_product_id_fkey,FOREIGN KEY,FOREIGN KEY (product_id) REFERENCES products(id)
+subscription_items,subscription_items_subscription_id_fkey,FOREIGN KEY,FOREIGN KEY (subscription_id) REFERENCES subscriptions(id) ON DELETE CASCADE
+subscription_items,subscription_items_pkey,PRIMARY KEY,PRIMARY KEY (id)
+subscriptions,subscriptions_status_check,CHECK,"CHECK ((status = ANY (ARRAY['draft'::text, 'quotation'::text, 'confirmed'::text, 'active'::text, 'paused'::text, 'closed'::text, 'cancelled'::text])))"
+subscriptions,subscriptions_customer_id_fkey,FOREIGN KEY,FOREIGN KEY (customer_id) REFERENCES profiles(id)
+subscriptions,subscriptions_plan_id_fkey,FOREIGN KEY,FOREIGN KEY (plan_id) REFERENCES plans(id)
+subscriptions,subscriptions_pkey,PRIMARY KEY,PRIMARY KEY (id)
+subscriptions,subscriptions_subscription_number_key,UNIQUE,UNIQUE (subscription_number)
+tax_rules,tax_rules_tax_rate_check,CHECK,CHECK ((tax_rate >= (0)::numeric))
+tax_rules,tax_rules_pkey,PRIMARY KEY,PRIMARY KEY (id)

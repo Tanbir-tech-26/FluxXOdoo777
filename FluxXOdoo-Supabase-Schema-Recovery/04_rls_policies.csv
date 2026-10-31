@@ -1,0 +1,29 @@
+schemaname,tablename,policyname,permissive,roles,cmd,qual,with_check
+public,discount_rules,Internal users manage discounts,PERMISSIVE,{authenticated},ALL,is_internal_user(),is_internal_user()
+public,invoice_items,Internal users manage invoice items,PERMISSIVE,{authenticated},ALL,is_internal_user(),is_internal_user()
+public,invoice_items,Read own or internal invoice items,PERMISSIVE,{authenticated},SELECT,"(EXISTS ( SELECT 1
+   FROM invoices i
+  WHERE ((i.id = invoice_items.invoice_id) AND ((i.customer_id = ( SELECT auth.uid() AS uid)) OR is_internal_user()))))",
+public,invoices,Internal users manage invoices,PERMISSIVE,{authenticated},ALL,is_internal_user(),is_internal_user()
+public,invoices,Read own or internal invoices,PERMISSIVE,{authenticated},SELECT,((customer_id = ( SELECT auth.uid() AS uid)) OR is_internal_user()),
+public,payments,Internal users manage payments,PERMISSIVE,{authenticated},ALL,is_internal_user(),is_internal_user()
+public,payments,Read own or internal payments,PERMISSIVE,{authenticated},SELECT,"((EXISTS ( SELECT 1
+   FROM invoices
+  WHERE ((invoices.id = payments.invoice_id) AND (invoices.customer_id = ( SELECT auth.uid() AS uid))))) OR is_internal_user())",
+public,plans,Internal users manage plans,PERMISSIVE,{authenticated},ALL,is_internal_user(),is_internal_user()
+public,product_variants,Internal users manage variants,PERMISSIVE,{authenticated},ALL,is_internal_user(),is_internal_user()
+public,products,Internal users manage products,PERMISSIVE,{authenticated},ALL,is_internal_user(),is_internal_user()
+public,profiles,Read own or internal profiles,PERMISSIVE,{authenticated},SELECT,((id = ( SELECT auth.uid() AS uid)) OR is_internal_user()),
+public,quotation_items,Internal users manage quotation items,PERMISSIVE,{authenticated},ALL,is_internal_user(),is_internal_user()
+public,quotation_items,Read own or internal quotation items,PERMISSIVE,{authenticated},SELECT,"(EXISTS ( SELECT 1
+   FROM quotations q
+  WHERE ((q.id = quotation_items.quotation_id) AND ((q.customer_id = ( SELECT auth.uid() AS uid)) OR is_internal_user()))))",
+public,quotations,Internal users manage quotations,PERMISSIVE,{authenticated},ALL,is_internal_user(),is_internal_user()
+public,quotations,Read own or internal quotations,PERMISSIVE,{authenticated},SELECT,((customer_id = ( SELECT auth.uid() AS uid)) OR is_internal_user()),
+public,subscription_items,Internal users manage subscription items,PERMISSIVE,{authenticated},ALL,is_internal_user(),is_internal_user()
+public,subscription_items,Read own or internal subscription items,PERMISSIVE,{authenticated},SELECT,"(EXISTS ( SELECT 1
+   FROM subscriptions s
+  WHERE ((s.id = subscription_items.subscription_id) AND ((s.customer_id = ( SELECT auth.uid() AS uid)) OR is_internal_user()))))",
+public,subscriptions,Internal users manage subscriptions,PERMISSIVE,{authenticated},ALL,is_internal_user(),is_internal_user()
+public,subscriptions,Read own or internal subscriptions,PERMISSIVE,{authenticated},SELECT,((customer_id = ( SELECT auth.uid() AS uid)) OR is_internal_user()),
+public,tax_rules,Internal users manage taxes,PERMISSIVE,{authenticated},ALL,is_internal_user(),is_internal_user()

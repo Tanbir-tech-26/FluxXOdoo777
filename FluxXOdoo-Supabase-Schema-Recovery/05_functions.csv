@@ -1,0 +1,31 @@
+schema_name,function_name,function_definition
+public,handle_new_user,"CREATE OR REPLACE FUNCTION public.handle_new_user()
+ RETURNS trigger
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO ''
+AS $function$
+begin
+  insert into public.profiles (id, email, full_name)
+  values (
+    new.id,
+    new.email,
+    coalesce(new.raw_user_meta_data ->> 'full_name', '')
+  );
+  return new;
+end;
+$function$
+"
+public,is_internal_user,"CREATE OR REPLACE FUNCTION public.is_internal_user()
+ RETURNS boolean
+ LANGUAGE sql
+ STABLE SECURITY DEFINER
+ SET search_path TO ''
+AS $function$
+  select exists (
+    select 1 from public.profiles
+    where id = (select auth.uid())
+    and role in ('admin', 'staff')
+  );
+$function$
+"
